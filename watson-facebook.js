@@ -83,7 +83,7 @@ controller.middleware.receive.use(function(bot, message, next) {
     next();
   
   });
-  /*
+  
   controller.hears(['batata'], 'message_received', function(bot, message) {
 
     bot.startConversation(message, function(err, convo) {
@@ -94,8 +94,7 @@ controller.middleware.receive.use(function(bot, message, next) {
                     'template_type': 'generic',
                     'elements': [
                         {
-                            'title': 'Classic White T-Shirt',
-                            'image_url': 'http://petersapparel.parseapp.com/img/item100-thumb.png',
+                            'title': 'Escolha o serviço desejado:',
                             'subtitle': 'Soft white cotton t-shirt is back in style',
                             'buttons': [
                                 {
@@ -142,9 +141,9 @@ controller.middleware.receive.use(function(bot, message, next) {
         });
     });
 });
-*/
 
 
+/*
 controller.hears(['batata'], 'message_received', function (bot, message) {
 
     bot.startConversation(message, function (err, convo) {
@@ -172,10 +171,12 @@ controller.hears(['batata'], 'message_received', function (bot, message) {
         });
     });
 });
-
+*/
 
 controller.on('facebook_postback', function(bot, message) {
 
-    bot.reply(message, 'Great Choice!!!! (' + message.payload + ')');
+    // bot.reply(message, 'Great Choice!!!! (' + message.payload + ')');
+    bot.reply(message, 'Olá, sou o Assistente Virtual da Kurumá e vou te ajudar com o agendamento do seu serviço. Qual o seu nome?');
 
 });
+
