@@ -42,8 +42,12 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     });
 });
 
-controller.api.messenger_profile.greeting('Hello');
-controller.api.messenger_profile.get_started('Hello');
+// delete the greeting message
+// controller.api.messenger_profile.delete_greeting();
+
+controller.api.messenger_profile.greeting('Olá, sou o Assistente Virtual da Kurumá e vou te ajudar com o agendamento do seu serviço. Qual o seu nome?');
+// controller.api.messenger_profile.get_started('Hello');
+controller.api.messenger_profile.delete_get_started();
 
 controller.on('message_received', function (bot, message) {
     middleware.interpret(bot, message, function (err) {
@@ -83,7 +87,7 @@ controller.middleware.receive.use(function(bot, message, next) {
     next();
   
   });
-  
+  /*
   controller.hears(['batata'], 'message_received', function(bot, message) {
 
     bot.startConversation(message, function(err, convo) {
@@ -95,7 +99,7 @@ controller.middleware.receive.use(function(bot, message, next) {
                     'elements': [
                         {
                             'title': 'Escolha o serviço desejado:',
-                            'subtitle': 'Soft white cotton t-shirt is back in style',
+                            'subtitle': ' ',
                             'buttons': [
                                 {
                                     'type': 'web_url',
@@ -116,7 +120,7 @@ controller.middleware.receive.use(function(bot, message, next) {
                         },
                         {
                             'title': 'Classic Grey T-Shirt',
-                            'image_url': 'http://petersapparel.parseapp.com/img/item101-thumb.png',
+                            'image_url': 'https://cdnakakyhko8zhjr.cdnedge.bluemix.net/wp-content/themes/toyota/desktop-images/logo_toyota.png',
                             'subtitle': 'Soft gray cotton t-shirt is back in style',
                             'buttons': [
                                 {
@@ -143,7 +147,7 @@ controller.middleware.receive.use(function(bot, message, next) {
 });
 
 
-/*
+*/
 controller.hears(['batata'], 'message_received', function (bot, message) {
 
     bot.startConversation(message, function (err, convo) {
@@ -171,12 +175,45 @@ controller.hears(['batata'], 'message_received', function (bot, message) {
         });
     });
 });
-*/
+
+
+
+controller.hears(['Em qual desses estados você gostaria de realizar o atendimento?'], 'message_received', function (bot, message) {
+
+    bot.startConversation(message, function (err, convo) {
+        convo.ask({
+            text: ' ',
+            quick_replies: [{
+                content_type: 'text',
+                title: 'Espírito Santo',
+                payload: 'Espírito Santo',
+            }, {
+                content_type: 'text',
+                title: 'Minas Gerais',
+                payload: 'Minas Gerais',
+            }]
+        }, function (response, convo) {
+            convo.next();
+        });
+    });
+});
+
 
 controller.on('facebook_postback', function(bot, message) {
 
     // bot.reply(message, 'Great Choice!!!! (' + message.payload + ')');
-    bot.reply(message, 'Olá, sou o Assistente Virtual da Kurumá e vou te ajudar com o agendamento do seu serviço. Qual o seu nome?');
+     bot.reply(message, 'Olá, sou o Assistente Virtual da Kurumá e vou te ajudar com o agendamento do seu serviço. Qual o seu nome?');
 
 });
+
+
+
+controller.on('facebook_postback', function(bot, message) {
+
+    if (message.payload == 'chocolate') {
+        bot.reply(message, 'You ate the chocolate cookie!')
+    }
+
+});
+
 
