@@ -37,113 +37,114 @@ var controller = Botkit.facebookbot({
 var bot = controller.spawn({
 });
 
-controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
-    controller.createWebhookEndpoints(webserver, bot, function() {
+controller.setupWebserver(process.env.port || 3000, function (err, webserver) {
+    controller.createWebhookEndpoints(webserver, bot, function () {
     });
 });
 
 // delete the greeting message
-// controller.api.messenger_profile.delete_greeting();
+//controller.api.messenger_profile.delete_greeting();
 
 controller.api.messenger_profile.greeting('Olá, sou o Assistente Virtual da Kurumá e vou te ajudar com o agendamento do seu serviço. Qual o seu nome?');
+
 // controller.api.messenger_profile.get_started('Hello');
-controller.api.messenger_profile.delete_get_started();
+// controller.api.messenger_profile.delete_get_started();
 
 controller.on('message_received', function (bot, message) {
     middleware.interpret(bot, message, function (err) {
         if (!err) {
             sharedCode.handleWatsonResponse(bot, message, 'facebook');
         }
-        else {            
+        else {
             bot.reply(message, "I'm sorry, but for technical reasons I can't respond to your message");
         }
     });
 });
 
 // Log every message recieved
-controller.middleware.receive.use(function(bot, message, next) {
+controller.middleware.receive.use(function (bot, message, next) {
 
     // log it
     console.log('RECEIVED: ', message);
-  
+
     // modify the message
     message.logged = true;
-  
+
     // continue processing the message
     next();
-  
-  });
-  
-  // Log every message sent
-  controller.middleware.send.use(function(bot, message, next) {
-  
+
+});
+
+// Log every message sent
+controller.middleware.send.use(function (bot, message, next) {
+
     // log it
     console.log('SENT: ', message);
-  
+
     // modify the message
     message.logged = true;
-  
+
     // continue processing the message
     next();
-  
+
+});
+/*
+controller.hears(['batata'], 'message_received', function(bot, message) {
+
+  bot.startConversation(message, function(err, convo) {
+      convo.ask({
+          attachment: {
+              'type': 'template',
+              'payload': {
+                  'template_type': 'generic',
+                  'elements': [
+                      {
+                          'title': 'Escolha o serviço desejado:',
+                          'subtitle': ' ',
+                          'buttons': [
+                              {
+                                  'type': 'web_url',
+                                  'url': 'https://petersapparel.parseapp.com/view_item?item_id=100',
+                                  'title': 'View Item'
+                              },
+                              {
+                                  'type': 'web_url',
+                                  'url': 'https://petersapparel.parseapp.com/buy_item?item_id=100',
+                                  'title': 'Buy Item'
+                              },
+                              {
+                                  'type': 'postback',
+                                  'title': 'Bookmark Item',
+                                  'payload': 'White T-Shirt'
+                              }
+                          ]
+                      },
+                      {
+                          'title': 'Classic Grey T-Shirt',
+                          'image_url': 'https://cdnakakyhko8zhjr.cdnedge.bluemix.net/wp-content/themes/toyota/desktop-images/logo_toyota.png',
+                          'subtitle': 'Soft gray cotton t-shirt is back in style',
+                          'buttons': [
+                              {
+                                  'type': 'web_url',
+                                  'url': 'https://petersapparel.parseapp.com/view_item?item_id=101',
+                                  'title': 'View Item'
+                              },
+                              {
+                                  'type': 'web_url',
+                                  'url': 'https://petersapparel.parseapp.com/buy_item?item_id=101',
+                                  'title': 'Buy Item'
+                              },
+
+                          ]
+                      }
+                  ]
+              }
+          }
+      }, function(response, convo) {
+          // whoa, I got the postback payload as a response to my convo.ask!
+          convo.next();
+      });
   });
-  /*
-  controller.hears(['batata'], 'message_received', function(bot, message) {
-
-    bot.startConversation(message, function(err, convo) {
-        convo.ask({
-            attachment: {
-                'type': 'template',
-                'payload': {
-                    'template_type': 'generic',
-                    'elements': [
-                        {
-                            'title': 'Escolha o serviço desejado:',
-                            'subtitle': ' ',
-                            'buttons': [
-                                {
-                                    'type': 'web_url',
-                                    'url': 'https://petersapparel.parseapp.com/view_item?item_id=100',
-                                    'title': 'View Item'
-                                },
-                                {
-                                    'type': 'web_url',
-                                    'url': 'https://petersapparel.parseapp.com/buy_item?item_id=100',
-                                    'title': 'Buy Item'
-                                },
-                                {
-                                    'type': 'postback',
-                                    'title': 'Bookmark Item',
-                                    'payload': 'White T-Shirt'
-                                }
-                            ]
-                        },
-                        {
-                            'title': 'Classic Grey T-Shirt',
-                            'image_url': 'https://cdnakakyhko8zhjr.cdnedge.bluemix.net/wp-content/themes/toyota/desktop-images/logo_toyota.png',
-                            'subtitle': 'Soft gray cotton t-shirt is back in style',
-                            'buttons': [
-                                {
-                                    'type': 'web_url',
-                                    'url': 'https://petersapparel.parseapp.com/view_item?item_id=101',
-                                    'title': 'View Item'
-                                },
-                                {
-                                    'type': 'web_url',
-                                    'url': 'https://petersapparel.parseapp.com/buy_item?item_id=101',
-                                    'title': 'Buy Item'
-                                },
-
-                            ]
-                        }
-                    ]
-                }
-            }
-        }, function(response, convo) {
-            // whoa, I got the postback payload as a response to my convo.ask!
-            convo.next();
-        });
-    });
 });
 
 
@@ -176,9 +177,9 @@ controller.hears(['batata'], 'message_received', function (bot, message) {
     });
 });
 
-
-
-controller.hears(['Em qual desses estados você gostaria de realizar o atendimento?'], 'message_received', function (bot, message) {
+/*
+// toda vez que o usuario digital 'batata', aparece o quick reply
+controller.hears(['batata'], 'message_received', function (bot, message) {
 
     bot.startConversation(message, function (err, convo) {
         convo.ask({
@@ -197,23 +198,35 @@ controller.hears(['Em qual desses estados você gostaria de realizar o atendimen
         });
     });
 });
+*/
 
 
-controller.on('facebook_postback', function(bot, message) {
-
-    // bot.reply(message, 'Great Choice!!!! (' + message.payload + ')');
-     bot.reply(message, 'Olá, sou o Assistente Virtual da Kurumá e vou te ajudar com o agendamento do seu serviço. Qual o seu nome?');
-
-});
-
-
-
-controller.on('facebook_postback', function(bot, message) {
-
-    if (message.payload == 'chocolate') {
-        bot.reply(message, 'You ate the chocolate cookie!')
+controller.on('facebook_postback', function (bot, message) {
+    /*
+    if (message.payload == 'Hello') {
+        bot.reply(message, 'Olá, sou o Assistente Virtual da Kurumá e vou te ajudar com o agendamento do seu serviço. Qual o seu nome?')
+    } */
+    if (message.payload == 'Hello') {
+        bot.startConversation(message, function (err, convo) {
+            convo.ask({
+                text: 'Em qual desses estados você gostaria de realizar o atendimento?',
+                quick_replies: [{
+                    content_type: 'text',
+                    title: 'Espírito Santo',
+                    payload: 'Espírito Santo',
+                }, {
+                    content_type: 'text',
+                    title: 'Minas Gerais',
+                    payload: 'Minas Gerais',
+                }]
+            }, function (response, convo) {
+                convo.next();
+            });
+        });
     }
-
+    else if (message.payload == '0') {
+        bot.reply(message,'teste correto');
+    }
 });
 
 
