@@ -45,9 +45,9 @@ controller.setupWebserver(process.env.port || 3000, function (err, webserver) {
 // delete the greeting message
 //controller.api.messenger_profile.delete_greeting();
 
-controller.api.messenger_profile.greeting('Olá, sou o Assistente Virtual da Kurumá e vou te ajudar com o agendamento do seu serviço. Qual o seu nome?');
+// controller.api.messenger_profile.greeting('com o agendamento do seu serviço. Qual o seu nome?');
 
-// controller.api.messenger_profile.get_started('Hello');
+controller.api.messenger_profile.get_started('Hello');
 // controller.api.messenger_profile.delete_get_started();
 
 controller.on('message_received', function (bot, message) {
@@ -202,10 +202,11 @@ controller.hears(['batata'], 'message_received', function (bot, message) {
 
 
 controller.on('facebook_postback', function (bot, message) {
-    /*
+    
+    
     if (message.payload == 'Hello') {
         bot.reply(message, 'Olá, sou o Assistente Virtual da Kurumá e vou te ajudar com o agendamento do seu serviço. Qual o seu nome?')
-    } */
+    } /*
     if (message.payload == 'Hello') {
         bot.startConversation(message, function (err, convo) {
             convo.ask({
@@ -223,10 +224,8 @@ controller.on('facebook_postback', function (bot, message) {
                 convo.next();
             });
         });
-    }
-    else if (message.payload == '0') {
-        bot.reply(message,'teste correto');
-    }
+    } */
+    
 });
 
 
